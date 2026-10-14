@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CFA Level 1 — Mock Exam Answer Sheet</title>
+<style>
+:root{
+  --bg:#0f1420; --card:#18203040; --panel:#1b2435; --line:#2a3650;
+  --txt:#e8edf7; --mut:#93a2bf; --acc:#4f8cff; --ok:#2fbf71; --bad:#ff5c6c; --warn:#f5a623;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt)}
+header{position:sticky;top:0;z-index:10;background:#121a28;border-bottom:1px solid var(--line);padding:10px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+h1{font-size:17px;margin:0}
+.badge{background:#22304a;border:1px solid var(--line);padding:4px 10px;border-radius:20px;font-size:13px}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;font-size:18px;color:var(--acc)}
+.wrap{max-width:1050px;margin:0 auto;padding:14px}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tab{padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-size:14px}
+.tab.active{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+label{font-size:13px;color:var(--mut);display:block;margin-bottom:4px}
+input,select,textarea{background:#0f1726;border:1px solid var(--line);color:var(--txt);padding:9px;border-radius:8px;font-size:14px;width:100%}
+textarea{font-family:ui-monospace,monospace;letter-spacing:2px;min-height:90px}
+button{cursor:pointer;font-size:14px}
+.btn{background:var(--acc);color:#fff;border:none;padding:10px 16px;border-radius:9px;font-weight:600}
+.btn.sec{background:#28344c}
+.btn.danger{background:#7a2230}
+.btn.ok{background:var(--ok)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.row>div{flex:1;min-width:140px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase}
+.opt{width:40px;height:36px;border-radius:8px;border:1px solid var(--line);background:#0f1726;color:var(--txt);font-weight:700;margin-right:5px}
+.opt.sel{background:var(--acc);border-color:var(--acc);color:#fff}
+.opt.key{background:#2b4a3a;border-color:var(--ok)}
+.qnum{width:54px;color:var(--mut);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
+.cell{padding:8px 0;text-align:center;border-radius:7px;border:1px solid var(--line);font-size:12px;background:#0f1726}
+.cell.a{background:#1d3a66;border-color:#2f5fa8}
+.cell.c{background:#1c4a35;border-color:var(--ok)}
+.cell.w{background:#4d1f28;border-color:var(--bad)}
+.cell.s{background:#4a3a14;border-color:var(--warn)}
+.cell.flag{outline:2px solid var(--warn)}
+.stat{display:inline-block;min-width:120px;background:#0f1726;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:5px 8px 5px 0}
+.stat b{display:block;font-size:24px}
+.bar{height:9px;background:#0f1726;border-radius:6px;overflow:hidden;margin-top:4px}
+.bar>i{display:block;height:100%;background:var(--ok)}
+.muted{color:var(--mut);font-size:13px}
+.hide{display:none}
+.sticky-nav{position:sticky;bottom:0;background:#121a28;border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;justify-content:center}
+@media(max-width:600px){.qnum{width:40px}.opt{width:34px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📘 CFA L1 — Mock Answer Sheet</h1>
+  <div>
+    <span class="badge" id="progBadge">0 / 0 answered</span>
+    <span class="timer" id="timer">00:00:00</span>
+    <button class="btn sec" id="timerBtn">Start</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="tabs">
+    <div class="tab active" data-t="setup">⚙️ Setup</div>
+    <div class="tab" data-t="answer">✍️ My Answers</div>
+    <div class="tab" data-t="key">🔑 Answer Key</div>
+    <div class="tab" data-t="result">📊 Results</div>
+  </div>
+
+  <!-- SETUP -->
+  <section id="setup">
+    <div class="card">
+      <div class="row">
+        <div><label>Mock name</label><input id="mockName" placeholder="Mock Test 1"></div>
+        <div><label>Total questions</label><input id="qCount" type="number" min="1" max="500" value="90"></div>
+        <div><label>Minutes per question</label><input id="mpq" type="number" step="0.1" value="1.5"></div>
+        <div style="flex:0"><button class="btn" id="createBtn">Create Sheet</button></div>
+      </div>
+      <p class="muted">Tip: CFA L1 = 180 Qs in 2 sessions of 90 (135 min each → 1.5 min/Q).</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">Topic mapping (optional but powerful)</h3>
+      <p class="muted">Enter ranges to tag questions by topic → you'll get topic-wise accuracy. One per line:<br>
+      <code>1-15 Ethics</code> &nbsp; <code>16-27 Quantitative Methods</code> ...</p>
+      <textarea id="topicMap" style="letter-spacing:0">1-15 Ethics
+16-27 Quantitative Methods
+28-39 Economics
+40-60 Financial Statement Analysis
+61-71 Corporate Issuers
+72-82 Equity Investments
+83-94 Fixed Income
+95-100 Derivatives
+101-107 Alternative Investments
+108-120 Portfolio Management</textarea>
+      <br><br><button class="btn sec" id="applyTopics">Apply Topics</button>
+      <span class="muted" id="topicInfo"></span>
+    </div>
+
+    <div class="card">
+      <button class="btn sec" id="exportBtn">⬇️ Export CSV</button>
+      <button class="btn sec" id="saveBtn">💾 Save</button>
+      <button class="btn danger" id="resetBtn">🗑 Reset All</button>
+      <span class="muted" id="saveInfo"></span>
+    </div>
+  </section>
+
+  <!-- ANSWERS -->
+  <section id="answer" class="hide">
+    <div class="card">
+      <div class="row">
+        <div><label>Quick fill: paste your answers (e.g. ABCCAB... use "-" for skipped)</label>
+        <textarea id="bulkAns" placeholder="ABCA-CBB..."></textarea></div>
+      </div>
+      <button class="btn sec" id="bulkAnsBtn">Load My Answers</button>
+      <button class="btn sec" id="clearAns">Clear</button>
+    </div>
+    <div class="card" id="ansList"></div>
+  </section>
+
+  <!-- KEY -->
+  <section id="key" class="hide">
+    <div class="card">
+      <label>Paste official answer key (e.g. ABCCAB...)</label>
+      <textarea id="bulkKey" placeholder="ABCABC..."></textarea>
+      <button class="btn sec" id="bulkKeyBtn">Load Key</button>
+      <button class="btn sec" id="clearKey">Clear</button>
+      <span class="muted" id="keyInfo"></span>
+    </div>
+    <div class="card" id="keyList"></div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="result" class="hide">
+    <div class="card">
+      <button class="btn ok" id="gradeBtn">✅ Grade My Test</button>
+      <span class="muted">Matches each answer with the key in sequence.</span>
+    </div>
+    <div id="resultOut"></div>
+  </section>
+</div>
+
+<div class="sticky-nav">
+  <button class="btn sec" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Top</button>
+  <button class="btn ok" onclick="go('result');grade()">Grade Now</button>
+</div>
+
+<script>
+const LS='cfa_mock_v1';
+let S={name:'Mock Test 1',n:0,mpq:1.5,ans:[],key:[],flag:[],topics:[],time:0,running:false,map:''};
+
+/* ---------- persistence ---------- */
+function save(){localStorage.setItem(LS,JSON.stringify(S));document.getElementById('saveInfo').textContent=' Saved '+new Date().toLocaleTimeString();}
+function load(){const d=localStorage.getItem(LS);if(d){S=JSON.parse(d);S.running=false;}}
+/* ---------- tabs ---------- */
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.t));
+function go(name){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.t===name));
+  ['setup','answer','key','result'].forEach(s=>document.getElementById(s).classList.toggle('hide',s!==name));
+  window.scrollTo({top:0});
+}
+/* ---------- create ---------- */
+document.getElementById('createBtn').onclick=()=>{
+  const n=+document.getElementById('qCount').value;
+  if(!n||n<1){alert('Enter a valid number of questions');return;}
+  S.n=n;S.name=document.getElementById('mockName').value||'Mock Test';
+  S.mpq=+document.getElementById('mpq').value||1.5;
+  S.ans=Array(n).fill('');S.key=Array(n).fill('');S.flag=Array(n).fill(false);
+  S.topics=Array(n).fill('General');S.time=Math.round(n*S.mpq*60);
+  applyTopics();render();save();go('answer');
+};
+/* ---------- topics ---------- */
+document.getElementById('applyTopics').onclick=()=>{applyTopics();render();save();};
+function applyTopics(){
+  if(!S.n)return;
+  const txt=document.getElementById('topicMap').value;S.map=txt;
+  S.topics=Array(S.n).fill('General');let c=0;
+  txt.split('\n').forEach(l=>{
+    const m=l.trim().match(/^(\d+)\s*[-–to]+\s*(\d+)\s+(.+)$/i);
+    if(m){for(let i=+m[1];i<=Math.min(+m[2],S.n);i++){S.topics[i-1]=m[3].trim();c++;}}
+  });
+  document.getElementById('topicInfo').textContent=` ${c} questions tagged.`;
+}
+/* ---------- render ---------- */
+function render(){
+  if(!S.n){document.getElementById('ansList').innerHTML='<p class="muted">Create a sheet in Setup first.</p>';return;}
+  document.getElementById('mockName').value=S.name;
+  document.getElementById('qCount').value=S.n;
+  document.getElementById('mpq').value=S.mpq;
+  if(S.map)document.getElementById('topicMap').value=S.map;
+  let a='<table><tr><th>#</th><th>Answer</th><th>Topic</th><th>Flag</th></tr>';
+  let k='<table><tr><th>#</th><th>Correct</th><th>Topic</th></tr>';
+  for(let i=0;i<S.n;i++){
+    a+=`<tr><td class="qnum">Q${i+1}</td><td>${['A','B','C'].map(o=>
+      `<button class="opt ${S.ans[i]===o?'sel':''}" onclick="setA(${i},'${o}')">${o}</button>`).join('')}
+      <button class="opt" onclick="setA(${i},'')" title="clear">–</button></td>
+      <td class="muted">${S.topics[i]||''}</td>
+      <td><button class="opt ${S.flag[i]?'key':''}" onclick="tog(${i})">⚑</button></td></tr>`;
+    k+=`<tr><td class="qnum">Q${i+1}</td><td>${['A','B','C'].map(o=>
+      `<button class="opt ${S.key[i]===o?'key':''}" onclick="setK(${i},'${o}')">${o}</button>`).join('')}</td>
+      <td class="muted">${S.topics[i]||''}</td></tr>`;
+  }
+  document.getElementById('ansList').innerHTML=a+'</table>';
+  document.getElementById('keyList').innerHTML=k+'</table>';
+  updBadge();
+}
+function setA(i,v){S.ans[i]=v;render();save();}
+function setK(i,v){S.key[i]=(S.key[i]===v?'':v);render();save();}
+function tog(i){S.flag[i]=!S.flag[i];render();save();}
+function updBadge(){
+  const d=S.ans.filter(x=>x).length;
+  document.getElementById('progBadge').textContent=`${d} / ${S.n} answered`;
+  document.getElementById('keyInfo').textContent=` Key filled: ${S.key.filter(x=>x).length}/${S.n}`;
+}
+/* ---------- bulk ---------- */
+function parse(str,n){const c=str.toUpperCase().replace(/[^ABC\-]/g,'').split('');
+  const r=Array(n).fill('');for(let i=0;i<n;i++)r[i]=(c[i]&&c[i]!=='-')?c[i]:'';return r;}
+document.getElementById('bulkAnsBtn').onclick=()=>{if(!S.n)return alert('Create sheet first');
+  S.ans=parse(document.getElementById('bulkAns').value,S.n);render();save();};
+document.getElementById('bulkKeyBtn').onclick=()=>{if(!S.n)return alert('Create sheet first');
+  S.key=parse(document.getElementById('bulkKey').value,S.n);render();save();};
+document.getElementById('clearAns').onclick=()=>{S.ans=Array(S.n).fill('');render();save();};
+document.getElementById('clearKey').onclick=()=>{S.key=Array(S.n).fill('');render();save();};
+/* ---------- grading ---------- */
+document.getElementById('gradeBtn').onclick=grade;
+function grade(){
+  if(!S.n)return alert('Create a sheet first.');
+  if(!S.key.filter(x=>x).length)return alert('Please fill the Answer Key tab first.');
+  let c=0,w=0,s=0,wrongs=[],T={};
+  for(let i=0;i<S.n;i++){
+    const t=S.topics[i]||'General';T[t]=T[t]||{c:0,w:0,s:0,n:0};T[t].n++;
+    if(!S.key[i])continue;
+    if(!S.ans[i]){s++;T[t].s++;}
+    else if(S.ans[i]===S.key[i]){c++;T[t].c++;}
+    else{w++;T[t].w++;wrongs.push(i+1);}
+  }
+  const att=c+w,tot=c+w+s;
+  const pct=tot?(c/tot*100):0, accAtt=att?(c/att*100):0;
+  const verdict=pct>=75?['Strong — exam ready zone 🎯','var(--ok)']:pct>=65?['Borderline — push to 75%+ ⚠️','var(--warn)']:['Needs serious revision 🔴','var(--bad)'];
+  let grid='';
+  for(let i=0;i<S.n;i++){
+    let cl='cell ';
+    if(!S.key[i])cl+='';else if(!S.ans[i])cl+='s';else cl+= S.ans[i]===S.key[i]?'c':'w';
+    if(S.flag[i])cl+=' flag';
+    grid+=`<div class="${cl}" title="Q${i+1} | You:${S.ans[i]||'-'} Key:${S.key[i]||'-'} | ${S.topics[i]}">${i+1}</div>`;
+  }
+  const rows=Object.entries(T).filter(([,v])=>v.c+v.w+v.s>0).map(([k,v])=>{
+    const tt=v.c+v.w+v.s,p=tt?v.c/tt*100:0;
+    return {k,v,p,tt};}).sort((a,b)=>a.p-b.p);
+  let tbl=rows.map(r=>`<tr><td>${r.k}</td><td>${r.v.c}</td><td style="color:var(--bad)">${r.v.w}</td>
+    <td style="color:var(--warn)">${r.v.s}</td><td>${r.tt}</td>
+    <td style="min-width:130px">${r.p.toFixed(0)}%<div class="bar"><i style="width:${r.p}%;background:${r.p>=75?'var(--ok)':r.p>=60?'var(--warn)':'var(--bad)'}"></i></div></td></tr>`).join('');
+  const weak=rows.filter(r=>r.p<70).slice(0,3).map(r=>r.k);
+  let wl=wrongs.map(q=>`<span class="badge" style="margin:2px">Q${q}: you ${S.ans[q-1]} ✗ / key ${S.key[q-1]} ✓ <i class="muted">${S.topics[q-1]}</i></span>`).join(' ');
+  const skipped=[];for(let i=0;i<S.n;i++)if(S.key[i]&&!S.ans[i])skipped.push(i+1);
+  const flagged=[];for(let i=0;i<S.n;i++)if(S.flag[i])flagged.push(i+1);
+
+  document.getElementById('resultOut').innerHTML=`
+  <div class="card">
+    <h2 style="margin:0 0 4px">${S.name} — Score Report</h2>
+    <p class="muted">${new Date().toLocaleString()} • Time used: ${fmt(usedTime())}</p>
+    <div class="stat"><span class="muted">Score</span><b style="color:${verdict[1]}">${pct.toFixed(1)}%</b></div>
+    <div class="stat"><span class="muted">Correct</span><b style="color:var(--ok)">${c}</b></div>
+    <div class="stat"><span class="muted">Wrong</span><b style="color:var(--bad)">${w}</b></div>
+    <div class="stat"><span class="muted">Skipped</span><b style="color:var(--warn)">${s}</b></div>
+    <div class="stat"><span class="muted">Accuracy (attempted)</span><b>${accAtt.toFixed(1)}%</b></div>
+    <div class="stat"><span class="muted">Avg time/Q</span><b>${S.n?(usedTime()/S.n/60).toFixed(2):0}m</b></div>
+    <p style="font-size:16px;color:${verdict[1]};font-weight:600">${verdict[0]}</p>
+    ${weak.length?`<p>🔎 <b>Focus next on:</b> ${weak.join(' • ')}</p>`:'<p>✅ No topic below 70% — great balance!</p>'}
+    ${s>0?`<p class="muted">⏱ You left ${s} question(s) blank — in CFA there is no negative marking, always guess.</p>`:''}
+  </div>
+  <div class="card"><h3 style="margin-top:0">Topic-wise Performance</h3>
+    <table><tr><th>Topic</th><th>✓</th><th>✗</th><th>–</th><th>Total</th><th>Accuracy</th></tr>${tbl}</table></div>
+  <div class="card"><h3 style="margin-top:0">Question Map</h3>
+    <p class="muted">🟩 correct · 🟥 wrong · 🟧 skipped · orange outline = flagged</p>
+    <div class="grid">${grid}</div></div>
+  <div class="card"><h3 style="margin-top:0">❌ Wrong Answers (${wrongs.length})</h3>${wl||'<span class="muted">None 🎉</span>'}</div>
+  <div class="card"><h3 style="margin-top:0">⏭ Skipped (${skipped.length})</h3><span class="muted">${skipped.join(', ')||'None'}</span>
+   <h3>⚑ Flagged for review (${flagged.length})</h3><span class="muted">${flagged.join(', ')||'None'}</span></div>`;
+  save();
+}
+/* ---------- timer ---------- */
+let tid=null,startTot=0;
+function usedTime(){return Math.max(0,startTot-S.time);}
+function fmt(x){x=Math.max(0,x);const h=String(Math.floor(x/3600)).padStart(2,'0'),m=String(Math.floor(x%3600/60)).padStart(2,'0'),s=String(x%60).padStart(2,'0');return h+':'+m+':'+s;}
+function tick(){S.time--;document.getElementById('timer').textContent=fmt(S.time);
+  if(S.time<=0){clearInterval(tid);tid=null;document.getElementById('timerBtn').textContent='Start';alert("⏰ Time's up!");}}
+document.getElementById('timerBtn').onclick=()=>{
+  if(!S.n)return alert('Create a sheet first.');
+  if(tid){clearInterval(tid);tid=null;document.getElementById('timerBtn').textContent='Resume';save();}
+  else{if(!startTot)startTot=S.time;tid=setInterval(tick,1000);document.getElementById('timerBtn').textContent='Pause';}
+};
+/* ---------- export ---------- */
+document.getElementById('exportBtn').onclick=()=>{
+  let csv='Q,Topic,MyAnswer,CorrectAnswer,Result,Flagged\n';
+  for(let i=0;i<S.n;i++){
+    const r=!S.key[i]?'':!S.ans[i]?'Skipped':S.ans[i]===S.key[i]?'Correct':'Wrong';
+    csv+=`${i+1},"${S.topics[i]}",${S.ans[i]||'-'},${S.key[i]||'-'},${r},${S.flag[i]?'Yes':''}\n`;}
+  const b=new Blob([csv],{type:'text/csv'}),u=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=u;a.download=(S.name||'mock')+'_result.csv';a.click();
+};
+document.getElementById('saveBtn').onclick=save;
+document.getElementById('resetBtn').onclick=()=>{if(confirm('Delete everything?')){localStorage.removeItem(LS);location.reload();}};
+/* ---------- keyboard ---------- */
+let cur=0;
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA'].includes(e.target.tagName))return;
+  const k=e.key.toUpperCase();
+  if(['A','B','C'].includes(k)&&S.n){setA(cur,k);cur=Math.min(cur+1,S.n-1);}
+  if(k==='F'&&S.n)tog(cur);
+  if(e.key==='ArrowDown'||e.key==='ArrowRight')cur=Math.min(cur+1,S.n-1);
+  if(e.key==='ArrowUp'||e.key==='ArrowLeft')cur=Math.max(cur-1,0);
+});
+/* ---------- init ---------- */
+load();if(S.n){startTot=S.n*S.mpq*60;render();document.getElementById('timer').textContent=fmt(S.time);}
+setInterval(()=>{if(S.n)save();},20000);
+</script>
+</body>
+</html>
